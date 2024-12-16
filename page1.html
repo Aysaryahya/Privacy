@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with Customizable Cookies</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://pixabay.com/photos/animal-mammal-elephant-nature-8857572/');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20%;
+            font-size: 3rem;
+        }
+
+        /* Cookie Banner styles */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+        .cookie-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cookie-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Customization Modal styles */
+        #customize-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 2000;
+        }
+        #customize-modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #customize-modal .option {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        #customize-modal .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        #customize-modal .buttons .cookie-button {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Our Website</h1>
+
+    <!-- Cookie Banner -->
+    <div id="cookie-banner">
+        <span>We use cookies to improve your experience. Choose your preference:</span>
+        <button class="cookie-button" onclick="acceptAll()">Accept All</button>
+        <button class="cookie-button" onclick="rejectAll()">Reject All</button>
+        <button class="cookie-button" onclick="openCustomize()">Customize</button>
+    </div>
+
+    <!-- Cookie Customization Modal -->
+    <div id="customize-modal">
+        <h2>Customize Your Cookies</h2>
+        <div class="option">
+            <label for="functional">Functional Cookies</label>
+            <input type="checkbox" id="functional" checked>
+        </div>
+        <div class="option">
+            <label for="analytics">Analytics Cookies</label>
+            <input type="checkbox" id="analytics" checked>
+        </div>
+        <div class="option">
+            <label for="advertising">Advertising Cookies</label>
+            <input type="checkbox" id="advertising" checked>
+        </div>
+        <div class="buttons">
+            <button class="cookie-button" onclick="saveCustom()">Save Preferences</button>
+            <button class="cookie-button" onclick="closeCustomize()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Show Customize Modal
+        function openCustomize() {
+            document.getElementById('customize-modal').style.display = 'block';
+        }
+
+        // Close Customize Modal
+        function closeCustomize() {
+            document.getElementById('customize-modal').style.display = 'none';
+        }
+
+        // Accept All Cookies
+        function acceptAll() {
+            alert("You accepted all cookies.");
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+
+        // Reject All Cookies
+        function rejectAll() {
+            alert("You rejected all cookies.");
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+
+        // Save Custom Cookie Preferences
+        function saveCustom() {
+            const functional = document.getElementById('functional').checked ? 'enabled' : 'disabled';
+            const analytics = document.getElementById('analytics').checked ? 'enabled' : 'disabled';
+            const advertising = document.getElementById('advertising').checked ? 'enabled' : 'disabled';
+
+            alert(`Your preferences have been saved:
+            Functional Cookies: ${functional}
+            Analytics Cookies: ${analytics}
+            Advertising Cookies: ${advertising}`);
+
+            document.getElementById('customize-modal').style.display = 'none';
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
