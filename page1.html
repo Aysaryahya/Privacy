@@ -5,154 +5,310 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trendyol</title>
     <style>
-        /* General styles */
+        /* General Styles */
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('https://source.unsplash.com/random/1920x1080');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            color: white;
-        }
-        h1 {
-            text-align: center;
-            margin-top: 20%;
-            font-size: 3rem;
+            box-sizing: border-box;
+            background-color: #FFFFFF; /* White background */
+            color: #333; /* Dark text for contrast */
         }
 
-        /* Cookie Banner styles */
-        #cookie-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.8);
+        header {
+            background-color: #FFA500; /* Orange header background */
             color: white;
             padding: 20px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
+            text-align: center;
         }
-        .cookie-button {
-            background-color: #007bff;
-            color: white;
+
+        section, footer {
+            padding: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: auto; /* Center content */
+        }
+
+        h2, h3 {
+            margin: 20px 0;
+            color: #FFA500; /* Orange header color */
+        }
+
+        /* Cookie Consent Styles */
+        #cookieConsent {
+            display: none; /* Hidden initially */
+            position: fixed;
+            z-index: 1000; /* Ensure it is above everything else */
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        #cookieConsent h3 {
+            margin-bottom: 10px;
+        }
+
+        #cookieConsent button {
+            margin-top: 10px;
+            padding: 10px 15px;
             border: none;
-            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
         }
-        .cookie-button:hover {
-            background-color: #0056b3;
+
+        #acceptCookies {
+            background-color: #FFA500; /* Orange accept button */
+            color: white;
         }
 
-        /* Customization Modal styles */
-        #customize-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 400px;
-            background: rgba(0, 0, 0, 0.9);
+        #rejectCookies, #manageCookies {
+            background-color: #f44336; /* Red reject button */
             color: white;
+        }
+
+        #manageCookies {
+            background-color: #ff9800; /* Light orange for manage cookies */
+        }
+
+        /* Cookie Settings Modal */
+        #cookieSettingsModal {
+            display: none; /* Hidden initially */
+            position: fixed;
+            z-index: 1001;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 2000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 350px;
         }
-        #customize-modal h2 {
-            margin-bottom: 20px;
-            text-align: center;
+
+        #cookieSettingsModal h2 {
+            margin-bottom: 15px;
         }
-        #customize-modal .option {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
+
+        .cookie-option {
+            margin-bottom: 15px;
         }
-        #customize-modal .buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
+
+        .cookie-switch {
+            display: inline-block;
         }
-        #customize-modal .buttons .cookie-button {
+
+        #modalButtons button {
+            margin-top: 10px;
             padding: 10px 15px;
-            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #savePreferences, #allowAllCookies {
+            background-color: #FFA500; /* Orange save button */
+            color: white;
+        }
+
+        #rejectAllCookies {
+            background-color: #f44336; /* Red reject all cookies */
+            color: white;
+        }
+
+        /* Overlay to block the site usage */
+        #overlay {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Contact Form Styles */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .contact-form input, .contact-form textarea {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .contact-form button {
+            background-color: #FFA500; /* Orange submit button */
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .contact-form button:hover {
+            background-color: #ff8c00; /* Darker orange on hover */
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Our Website</h1>
 
-    <!-- Cookie Banner -->
-    <div id="cookie-banner">
-        <span>We use cookies to improve your experience. Choose your preference:</span>
-        <button class="cookie-button" onclick="acceptAll()">Accept All</button>
-        <button class="cookie-button" onclick="rejectAll()">Reject All</button>
-        <button class="cookie-button" onclick="openCustomize()">Customize</button>
+    <header>
+        <h1>Welcome to Trendol</h1>
+        <p>Empowering your creative journey through innovative solutions.</p>
+    </header>
+
+    <!-- About Section -->
+    <section class="about">
+        <h2>Our Mission</h2>
+        <p>To empower individuals and businesses to unleash their creative potential through innovative technology and solutions.</p>
+
+        <h2>Our Vision</h2>
+        <p>To be the leading provider of creative technology solutions, inspiring creativity and innovation worldwide.</p>
+
+        <h2>Our Values</h2>
+        <p>Creativity, innovation, and customer-centric solutions guide everything we do.</p>
+    </section>
+
+    <!-- Services Section -->
+    <section>
+        <h2>Our Services</h2>
+        <div class="services">
+            <h3>Web Development</h3>
+            <p>We build responsive, fast, and reliable websites that deliver a seamless user experience.</p>
+
+            <h3>Digital Marketing</h3>
+            <p>Our digital marketing strategies are designed to grow your online presence and drive success.</p>
+
+            <h3>Creative Design</h3>
+            <p>Our creative design solutions bring your vision to life through cutting-edge technology and innovation.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section>
+        <h2>Contact Us</h2>
+        <div class="contact-form">
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Trendol | All Rights Reserved</p>
+    </footer>
+
+    <!-- Cookie Consent -->
+    <div id="cookieConsent">
+        <h3>We use cookies!</h3>
+        <p>We use cookies to ensure you get the best experience on our website.</p>
+        <button id="acceptCookies">Accept Cookies</button>
+        <button id="rejectCookies" class="reject">Reject Cookies</button>
+        <button id="manageCookies" class="settings">Manage Cookies</button>
     </div>
 
-    <!-- Cookie Customization Modal -->
-    <div id="customize-modal">
-        <h2>Customize Your Cookies</h2>
-        <div class="option">
-            <label for="functional">Functional Cookies</label>
-            <input type="checkbox" id="functional" checked>
-        </div>
-        <div class="option">
-            <label for="analytics">Analytics Cookies</label>
-            <input type="checkbox" id="analytics" checked>
-        </div>
-        <div class="option">
-            <label for="advertising">Advertising Cookies</label>
-            <input type="checkbox" id="advertising" checked>
-        </div>
-        <div class="buttons">
-            <button class="cookie-button" onclick="saveCustom()">Save Preferences</button>
-            <button class="cookie-button" onclick="closeCustomize()">Cancel</button>
+    <!-- Cookie Settings Modal -->
+    <div id="cookieSettingsModal">
+        <div id="cookieSettingsModalContent">
+            <h2>Cookie Preferences</h2>
+            <div class="cookie-option">
+                <label for="necessaryCookies">Necessary Cookies</label>
+                <div class="cookie-switch">
+                    <input type="checkbox" id="necessaryCookies" checked disabled>
+                    <span class="cookie-slider round"></span>
+                </div>
+                <p class="cookie-text">These cookies are essential for the website to function and cannot be turned off.</p>
+            </div>
+            <div class="cookie-option">
+                <label for="analyticsCookies">Analytics Cookies</label>
+                <div class="cookie-switch">
+                    <input type="checkbox" id="analyticsCookies">
+                    <span class="cookie-slider round"></span>
+                </div>
+                <p class="cookie-text">These cookies help us understand how visitors interact with the website by collecting and reporting information anonymously.</p>
+            </div>
+            <div id="modalButtons">
+                <button id="savePreferences">Save Preferences</button>
+                <button id="allowAllCookies" class="settings">Allow All Cookies</button>
+                <button id="rejectAllCookies" class="reject">Reject All Cookies</button>
+            </div>
         </div>
     </div>
 
+    <!-- Overlay to block interactions -->
+    <div id="overlay"></div>
+
+    <!-- JavaScript -->
     <script>
-        // Show Customize Modal
-        function openCustomize() {
-            document.getElementById('customize-modal').style.display = 'block';
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptCookiesBtn = document.getElementById('acceptCookies');
+            const rejectCookiesBtn = document.getElementById('rejectCookies');
+            const manageCookiesBtn = document.getElementById('manageCookies');
+            const cookieSettingsModal = document.getElementById('cookieSettingsModal');
+            const savePreferencesBtn = document.getElementById('savePreferences');
+            const allowAllCookiesBtn = document.getElementById('allowAllCookies');
+            const rejectAllCookiesBtn = document.getElementById('rejectAllCookies');
+            const overlay = document.getElementById('overlay');
 
-        // Close Customize Modal
-        function closeCustomize() {
-            document.getElementById('customize-modal').style.display = 'none';
-        }
+            // Show the cookie consent popup and overlay
+            cookieConsent.style.display = 'block';
+            overlay.style.display = 'block';
 
-        // Accept All Cookies
-        function acceptAll() {
-            alert("You accepted all cookies.");
-            document.getElementById('cookie-banner').style.display = 'none';
-        }
+            // Accept Cookies
+            acceptCookiesBtn.addEventListener('click', function () {
+                localStorage.setItem('cookieConsent', 'accepted');
+                cookieConsent.style.display = 'none';
+                overlay.style.display = 'none';
+            });
 
-        // Reject All Cookies
-        function rejectAll() {
-            alert("You rejected all cookies.");
-            document.getElementById('cookie-banner').style.display = 'none';
-        }
+            // Reject Cookies
+            rejectCookiesBtn.addEventListener('click', function () {
+                localStorage.setItem('cookieConsent', 'rejected');
+                cookieConsent.style.display = 'none';
+                overlay.style.display = 'none';
+            });
 
-        // Save Custom Cookie Preferences
-        function saveCustom() {
-            const functional = document.getElementById('functional').checked ? 'enabled' : 'disabled';
-            const analytics = document.getElementById('analytics').checked ? 'enabled' : 'disabled';
-            const advertising = document.getElementById('advertising').checked ? 'enabled' : 'disabled';
+            // Manage Cookies
+            manageCookiesBtn.addEventListener('click', function () {
+                cookieSettingsModal.style.display = 'block';
+                overlay.style.display = 'block';
+            });
 
-            alert(`Your preferences have been saved:
-            Functional Cookies: ${functional}
-            Analytics Cookies: ${analytics}
-            Advertising Cookies: ${advertising}`);
+            // Save Cookie Preferences
+            savePreferencesBtn.addEventListener('click', function () {
+                cookieSettingsModal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
 
-            document.getElementById('customize-modal').style.display = 'none';
-            document.getElementById('cookie-banner').style.display = 'none';
-        }
+            // Allow All Cookies
+            allowAllCookiesBtn.addEventListener('click', function () {
+                localStorage.setItem('cookieConsent', 'accepted');
+                cookieSettingsModal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+
+            // Reject All Cookies
+            rejectAllCookiesBtn.addEventListener('click', function () {
+                localStorage.setItem('cookieConsent', 'rejected');
+                cookieSettingsModal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        });
     </script>
 </body>
 </html>
